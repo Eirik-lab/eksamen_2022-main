@@ -2,13 +2,13 @@
 # Also, I can't get it to run automatically - it can only be triggered from the UI. Shouldn't it run on every commit
 # or something?
 name: CI pipeline
+#on:
+#  workflow_dispatch:
 on:
-  workflow_dispatch:
-    on:
-      push:
-        branches: [ "main" ]
-      pull_request:
-        branches: [ "main" ]
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
   build:
