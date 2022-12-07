@@ -32,10 +32,5 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          build: true
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/shopifly:latest
-#        run: |
-#          docker build . -t shopifly
-#          docker tag shopifly eiam001/shopifly
-#          docker push eiam001/shopifly
