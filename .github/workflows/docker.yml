@@ -6,7 +6,8 @@ on:
   pull_request:
     branches: [ master ]
 jobs:
-  #build:
+  build_docker_image:
+    name: Build Docker Image
     runs-on: ubuntu-latest
     steps:
 #      - uses: actions/checkout@v2
