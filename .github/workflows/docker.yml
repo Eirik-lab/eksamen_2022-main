@@ -37,7 +37,7 @@ jobs:
           aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 244530008913.dkr.ecr.eu-west-1.amazonaws.com
           rev=$(git rev-parse --short HEAD)
           docker build . -t ${{ secrets.DOCKER_HUB_USERNAME }}/shopifly
-          docker tag hello 244530008913.dkr.ecr.eu-west-1.amazonaws.com/${{ secrets.DOCKER_HUB_USERNAME }}/shopifly:$rev
-          docker tag hello 244530008913.dkr.ecr.eu-west-1.amazonaws.com/${{ secrets.DOCKER_HUB_USERNAME }}/shopifly:latest
+          docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/shopifly 244530008913.dkr.ecr.eu-west-1.amazonaws.com/${{ secrets.DOCKER_HUB_USERNAME }}/shopifly:$rev
+          docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/shopifly 244530008913.dkr.ecr.eu-west-1.amazonaws.com/${{ secrets.DOCKER_HUB_USERNAME }}/shopifly:latest
           docker push 244530008913.dkr.ecr.eu-west-1.amazonaws.com/${{ secrets.DOCKER_HUB_USERNAME }}/shopifly:$rev
           docker push 244530008913.dkr.ecr.eu-west-1.amazonaws.com/${{ secrets.DOCKER_HUB_USERNAME }}/shopifly:latest
