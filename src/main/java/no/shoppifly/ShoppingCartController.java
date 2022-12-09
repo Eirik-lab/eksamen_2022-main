@@ -1,6 +1,7 @@
 package no.shoppifly;
 
 import com.sun.xml.bind.annotation.OverrideAnnotationOf;
+import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.DistributionSummary;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -31,6 +32,7 @@ public class ShoppingCartController {
         this.cartService = cartService;
     }
 
+    @Timed
     @GetMapping(path = "/cart/{id}")
     public Cart getCart(@PathVariable String id) {
         return cartService.getCart(id);
@@ -41,6 +43,7 @@ public class ShoppingCartController {
      *
      * @return an order ID
      */
+    @Timed
     @PostMapping(path = "/cart/checkout", consumes = "application/json", produces = "application/json")
     public String checkout(@RequestBody Cart cart, Item item) {
 
@@ -72,6 +75,7 @@ public class ShoppingCartController {
      *
      * @return the updated cart
      */
+    @Timed
     @PostMapping(path = "/cart", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Cart> updateCart(@RequestBody Cart cart, Item item) {
 
