@@ -1,9 +1,14 @@
 package no.shoppifly;
 
+import com.sun.xml.bind.annotation.OverrideAnnotationOf;
 import io.micrometer.core.instrument.DistributionSummary;
+import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.distribution.DistributionStatisticConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -36,8 +41,8 @@ public class ShoppingCartController {
      *
      * @return an order ID
      */
-    @PostMapping(path = "/cart/checkout")
-    public String checkout(@RequestBody Cart cart) {
+    @PostMapping(path = "/cart/checkout", consumes = "application/json", produces = "application/json")
+    public String checkout(@RequestBody Cart cart, Item item) {
 
         meterRegistry.counter("checkout").increment();
         meterRegistry.counter("checkout", "cart", cart.getId()).increment();
@@ -48,7 +53,17 @@ public class ShoppingCartController {
                 .publishPercentileHistogram()
                 .register(meterRegistry);
         this.meterRegistry.timer("checkout_latency").record(() -> cartService.checkout(cart));
+
+        // Denne meter-typen "Gauge" rapporterer hvor mye penger som totalt finnes i alle carts
+        Gauge.builder("cartvalue", cart,
+                b -> b.items.stream().mapToDouble(i -> i.unitPrice).sum())
+                .register(meterRegistry);
+
         return cartService.checkout(cart);
+    }
+
+    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent, Item item) {
+        Gauge.builder("account_count", item.getUnitPrice(), value -> value);
     }
 
     /**
@@ -58,20 +73,25 @@ public class ShoppingCartController {
      * @return the updated cart
      */
     @PostMapping(path = "/cart", consumes = "application/json", produces = "application/json")
-    public Cart updateCart(@RequestBody Cart cart, Item item) {
+    public ResponseEntity<Cart> updateCart(@RequestBody Cart cart, Item item) {
 
         meterRegistry.counter("carts").increment();
         cart.setItems(cart.getItems());
         cart.setId(cart.getId());
 
-        //meterRegistry.counter("cartsvalue").increment(item.unitPrice()); // getunitprice?
-        //meterRegistry.counter("cartsvalue", "cart", cart.getId()).increment(item.getUnitPrice());
+//        meterRegistry.counter("cartsvalue").increment(item.unitPrice); // getunitprice?
+//        meterRegistry.counter("cartsvalue", "cart", cart.getId()).increment(item.getUnitPrice());
 
         //return new ResponseEntity<>(cartService.update(cart), HttpStatus.OK);
         //return ResponseEntity.ok(cartService.update(cart));
-        return cartService.update(cart);
+        return new ResponseEntity<Cart>(cartService.update(cart), HttpStatus.OK);
     }
 
+//    @Override
+//    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+//        Gauge.builder("account_count", Item,
+//                b -> b.values().size()).register(meterRegistry);
+//    }
     /**
      * return all cart IDs
      *
@@ -83,6 +103,7 @@ public class ShoppingCartController {
         meterRegistry.counter("get_all_carts").increment(); // Increment a metric called "get_all_carts" every time this is called
         return cartService.getAllsCarts();
     }
+
 
 
 
