@@ -113,11 +113,11 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-        Gauge.builder("carts", cartService, service -> service.getAllsCarts().size())
+        Gauge.builder("carts2", cartService, service -> service.getAllsCarts().size())
                 .register(meterRegistry);
-        Gauge.builder("cartsvalue", cartService, CartService::total)
+        Gauge.builder("cartsvalue2", cartService, CartService::total)
                 .register(meterRegistry);
-        Gauge.builder("checkouts", cartService, CartService::cartsCheckedOut)
+        Gauge.builder("checkouts2", cartService, CartService::cartsCheckedOut)
                 .register(meterRegistry);
     }
 
