@@ -51,7 +51,7 @@ public class ShoppingCartController {
     public String checkout(@RequestBody Cart cart) {
 
         // base checkout
-        meterRegistry.counter("checkout").increment();
+        meterRegistry.counter("checkouts").increment();
 
 
         meterRegistry.counter("checkout", "cart", cart.getId()).increment();
