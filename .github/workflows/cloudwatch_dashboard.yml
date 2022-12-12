@@ -38,7 +38,7 @@ jobs:
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        run: terraform apply -var="candidate_id=$CANDIDATE_ID" -var="candidate_email=$CANDIDATE_EMAIL"  -auto-approve
+        run: terraform apply -auto-approve
 
 #      - uses: actions/github-script@0.9.0
 #        if: github.event_name == 'pull_request'
