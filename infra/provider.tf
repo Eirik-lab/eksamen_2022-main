@@ -5,6 +5,7 @@ terraform {
       version = "4.40.0"
     }
   }
+
    backend "s3" {
      bucket = "analytics-1045"
      key    = "analytics/1045-terraform.state"
