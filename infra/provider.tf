@@ -7,11 +7,8 @@ terraform {
   }
    backend "s3" {
      bucket = "analytics-1045"
-     key    = "1045/terraform.state"
+     key    = "analytics/1045-terraform.state"
      region = "eu-west-1"
    }
 
 }
-#provider "aws" {
-#    region = "eu-west-1"
-#}
