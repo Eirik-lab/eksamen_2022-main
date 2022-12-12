@@ -36,4 +36,4 @@ jobs:
 
       - name: Terraform Apply
         if: github.event_name == 'push'
-        run: terraform apply -var="candidate_id=$CANDIDATE_ID" -var="candidate_email=$CANDIDATE_EMAIL" aws s3 cp build s3://analytics-1045 --recursive --region eu-west-1
+        run: aws s3 cp build s3://analytics-1045 --recursive --region eu-west-1
