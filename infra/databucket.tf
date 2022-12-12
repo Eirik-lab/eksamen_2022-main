@@ -2,36 +2,36 @@
 
 resource "aws_s3_bucket" "analyticsbucket" {
   bucket = "analytics-${var.candidate_id}"
-#    acl    = "private"
-#    tags = {
-#      Name = "analytics-${var.candidate_id}"
-#    }
-#    versioning {
-#      enabled = true
-#    }
-#    lifecycle_rule {
-#      id      = "log"
-#      enabled = true
-#      prefix  = "log/"
-#      tags = {
-#        autoclean = "true"
-#        rule      = "log"
-#      }
-#      expiration {
-#        days = 90
-#      }
-#    }
-#    lifecycle_rule {
-#      id      = "tmp"
-#      enabled = true
-#      prefix  = "tmp/"
-#      tags = {
-#        autoclean = "true"
-#        rule      = "tmp"
-#      }
-#      expiration {
-#        days = 1
-#      }
+    acl    = "private"
+    tags = {
+      Name = "analytics-${var.candidate_id}"
+    }
+    versioning {
+      enabled = true
+    }
+    lifecycle_rule {
+      id      = "log"
+      enabled = true
+      prefix  = "log/"
+      tags = {
+        autoclean = "true"
+        rule      = "log"
+      }
+      expiration {
+        days = 90
+      }
+    }
+    lifecycle_rule {
+      id      = "tmp"
+      enabled = true
+      prefix  = "tmp/"
+      tags = {
+        autoclean = "true"
+        rule      = "tmp"
+      }
+      expiration {
+        days = 1
+      }
     }
 #  acl = "public-read"
 #  policy = <<EOF
