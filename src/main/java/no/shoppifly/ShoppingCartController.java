@@ -4,6 +4,7 @@ import com.sun.xml.bind.annotation.OverrideAnnotationOf;
 import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.DistributionSummary;
 import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.Meter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.distribution.DistributionStatisticConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,10 @@ public class ShoppingCartController {
 //    @Autowired
 //    private MeterRegistry meterRegistry;
 
+    private Meter meter;
 
-    public ShoppingCartController(CartService cartService) {
+    public ShoppingCartController(CartService cartService, MeterRegistry meterRegistry) {
+        this.meter = Gauge.builder("cartsvalue", cartService, CartService::total).register(meterRegistry);
         this.cartService = cartService;
     }
 
@@ -45,9 +48,12 @@ public class ShoppingCartController {
      */
     @Timed
     @PostMapping(path = "/cart/checkout", consumes = "application/json", produces = "application/json")
-    public String checkout(@RequestBody Cart cart, Item item) {
+    public String checkout(@RequestBody Cart cart) {
 
+        // base checkout
         meterRegistry.counter("checkout").increment();
+
+
         meterRegistry.counter("checkout", "cart", cart.getId()).increment();
         DistributionStatisticConfig.builder()
                 .percentilesHistogram(true)
@@ -91,11 +97,6 @@ public class ShoppingCartController {
         return new ResponseEntity<Cart>(cartService.update(cart), HttpStatus.OK);
     }
 
-//    @Override
-//    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-//        Gauge.builder("account_count", Item,
-//                b -> b.values().size()).register(meterRegistry);
-//    }
     /**
      * return all cart IDs
      *
