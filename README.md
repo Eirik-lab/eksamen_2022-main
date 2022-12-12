@@ -46,6 +46,19 @@ Oppgave 1
          Det skyldes nok mye heller fordi det er noe galt med måten systemet er satt opp. Da kan man jo alltids anta at problemer oppstår fordi et eller flere av disse stegene er borte,
          f.eks. om man ikke har satt opp noen metrics til å analysere data vil man da ikke kunne oppdage og løse feil som ellers ville vært åpenbare. 
 
+###En vanlig respons på mange feil under release av ny funksjonalitet er å gjøre det mindre hyppig, og samtidig forsøke å legge på mer kontroll og QA. Hva er problemet med dette ut ifra et DevOps perspektiv, og hva kan være en bedre tilnærming?
+- -- 
+  - Det er uønskelig å ha store lange oppgaver som enkelte utviklere bruker lengre tid på å løse. Hovedpoenget med devops er å hjøre det rakst og hyppig.
+    Det er derfor ønskelig at man holder oppgaver relativt småe og enkle slik at man kan deploye oftere for så å få blidere kunder samt. unngå problemer som kan oppstå, f.eks. merge konflikter.
+
+###Teamet overleverer kode til en annen avdelng som har ansvar for drift - hva er utfordringen med dette ut ifra et DevOps perspektiv, og hvilke gevinster kan man få ved at team han ansvar for både drift- og utvikling?
+- --
+  - Ved å ha et team der alle er erfarene og jobber med både det operative og det å utvikle unngår man misforståelser/ miskommunikasjon, har rom for et mindre team som da kan jobbe mer effektivt. Man slipper også unødvendig venting av "ops"-ene om de er stuck med å vente på at utviklerne gjør seg ferdig( med andre ord så sitter de bare å tvinner tommler).
+
+###Å release kode ofte kan også by på utfordringer. Beskriv hvilke- og hvordan vi kan bruke DevOps prinsipper til å redusere eller fjerne risiko ved hyppige leveraner
+- -- 
+  - Merge konfilter kan oppstå som da tar tid og kan føre til at man helder ønsker å pushe sjeldnere for å unngå disse merge konfliktene (som f.eks. å kun pushe første mandag i kvartalet).
+
 Oppgave 2
 -
 ###Hva kan sensor gjøre for at ingen kan pushe direkte til main branch?
