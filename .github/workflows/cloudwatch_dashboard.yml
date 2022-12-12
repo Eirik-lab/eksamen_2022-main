@@ -18,7 +18,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: eu-west-1
       CANDIDATE_ID: 1045
-      CANDIDATE_EMAIL: eiam001@student.kristiania.com
+      CANDIDATE_EMAIL: eiam001@student.kristiania.no
     steps:
       - uses: actions/checkout@v3
       - name: Setup Terraform
@@ -37,5 +37,3 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -var="candidate_id=$CANDIDATE_ID" -var="candidate_email=$CANDIDATE_EMAIL"  -auto-approve
-
-        #ny branch
