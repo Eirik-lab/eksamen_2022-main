@@ -110,7 +110,7 @@ public class ShoppingCartController implements ApplicationListener<ApplicationRe
         return cartService.getAllsCarts();
     }
 
-
+    // Har kalt dem ___2 ettersom jeg ikke føler jeg har tid til å gå inn i aws og slette de som allerede eksisterer (i tilfelle, mot all formodning, noe skulle gå galt)
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
         Gauge.builder("carts2", cartService, service -> service.getAllsCarts().size())
