@@ -6,6 +6,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.concurrent.atomic.LongAdder;
 
 @Component
 class NaiveCartImpl implements CartService {
@@ -48,25 +49,31 @@ class NaiveCartImpl implements CartService {
                 .reduce(0f, Float::sum);
     }
 
+    private final LongAdder cartsCheckkedOut = new LongAdder();
+    @Override
+    public int cartsCheckedOut() {
+        return this.cartsCheckkedOut.intValue();
+    }
+
 //    public float total(String id) {
 //        return shoppingCarts.get(id).getItems().stream()
 //                .map(i -> i.getUnitPrice() * i.getQty())
 //                .reduce(0f, Float::sum);
 //    }
 
-    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-//        Gauge.builder("total", this, NaiveCartImpl::total)
-//                .description("Total value of all carts")
+//    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+////        Gauge.builder("total", this, NaiveCartImpl::total)
+////                .description("Total value of all carts")
+////                .register(meterRegistry);
+//        Gauge.builder("carts", shoppingCarts,
+//                Map::size).register(meterRegistry);
+//        Gauge.builder("cartssum", shoppingCarts,
+//                        b -> b.values()
+//                                .stream()
+//                                .flatMap(cart -> cart.getItems().stream())
+//                                .map(item -> item.getQty() * item.getUnitPrice())
+//                                .mapToDouble(Float::doubleValue)
+//                                .sum())
 //                .register(meterRegistry);
-        Gauge.builder("carts", shoppingCarts,
-                Map::size).register(meterRegistry);
-        Gauge.builder("cartssum", shoppingCarts,
-                        b -> b.values()
-                                .stream()
-                                .flatMap(cart -> cart.getItems().stream())
-                                .map(item -> item.getQty() * item.getUnitPrice())
-                                .mapToDouble(Float::doubleValue)
-                                .sum())
-                .register(meterRegistry);
-    }
+//    }
 }

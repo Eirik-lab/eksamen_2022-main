@@ -9,6 +9,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.distribution.DistributionStatisticConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController()
-public class ShoppingCartController {
+public class ShoppingCartController implements ApplicationListener<ApplicationReadyEvent> {
 
     @Autowired
     private MeterRegistry meterRegistry;
@@ -49,7 +50,7 @@ public class ShoppingCartController {
     @Timed
     @PostMapping(path = "/cart/checkout", consumes = "application/json", produces = "application/json")
     public String checkout(@RequestBody Cart cart) {
-
+/*
         // base checkout
         meterRegistry.counter("checkouts").increment();
 
@@ -67,13 +68,13 @@ public class ShoppingCartController {
         Gauge.builder("cartvalue", cart,
                 b -> b.items.stream().mapToDouble(i -> i.unitPrice).sum())
                 .register(meterRegistry);
-
+*/
         return cartService.checkout(cart);
     }
 
-    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent, Item item) {
+   /* public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent, Item item) {
         Gauge.builder("account_count", item.getUnitPrice(), value -> value);
-    }
+    } */
 
     /**
      * Updates a shopping cart, replacing it's contents if it already exists. If no cart exists (id is null)
@@ -86,8 +87,8 @@ public class ShoppingCartController {
     public ResponseEntity<Cart> updateCart(@RequestBody Cart cart, Item item) {
 
         meterRegistry.counter("carts").increment();
-        cart.setItems(cart.getItems());
-        cart.setId(cart.getId());
+/*        cart.setItems(cart.getItems());
+        cart.setId(cart.getId()); */
 
 //        meterRegistry.counter("cartsvalue").increment(item.unitPrice); // getunitprice?
 //        meterRegistry.counter("cartsvalue", "cart", cart.getId()).increment(item.getUnitPrice());
@@ -105,11 +106,20 @@ public class ShoppingCartController {
     @GetMapping(path = "/carts", consumes = "application/json", produces = "application/json")
     public List<String> getAllCarts() {
      //   Gauge.builder("carts", (Supplier<Number>) getAllCarts());
-        meterRegistry.counter("get_all_carts").increment(); // Increment a metric called "get_all_carts" every time this is called
+     /*   meterRegistry.counter("get_all_carts").increment(); // Increment a metric called "get_all_carts" every time this is called */
         return cartService.getAllsCarts();
     }
 
 
+    @Override
+    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+        Gauge.builder("carts", cartService, service -> service.getAllsCarts().size())
+                .register(meterRegistry);
+        Gauge.builder("cartsvalue", cartService, CartService::total)
+                .register(meterRegistry);
+        Gauge.builder("checkouts", cartService, CartService::cartsCheckedOut)
+                .register(meterRegistry);
+    }
 
 
 

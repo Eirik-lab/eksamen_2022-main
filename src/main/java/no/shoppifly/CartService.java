@@ -18,5 +18,7 @@ public interface CartService {
 
     float total();
 
-    void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent);
+    int cartsCheckedOut();
+
+//    void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent);
 }
