@@ -1,3 +1,8 @@
+![Docker build](https://github.com/Eirik-lab/eksamen_2022-main/actions/workflows/docker.yml/badge.svg)
+![Java CI](https://github.com/Eirik-lab/eksamen_2022-main/actions/workflows/ci.yml/badge.svg)
+![Terraform CloudWatch](https://github.com/Eirik-lab/eksamen_2022-main/actions/workflows/ci.yml/badge.svg)
+
+
 Oppgave 1
 -
  - Det er flere grove feil som har blitt gjort ved dagen systemutviklingsprosess. Hovedsakelig er det tre devopsprinsipper man skal forholde seg til, med diverse underkategorier:
