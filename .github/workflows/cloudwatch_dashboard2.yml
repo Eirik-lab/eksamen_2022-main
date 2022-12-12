@@ -31,9 +31,9 @@ jobs:
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request' || github.event_name == 'push'
-        run: terraform plan -var="candidate_id=$CANDIDATE_ID" -var="candidate_email=CANDIDATE_EMAIL" -no-color --recursive
+        run: terraform plan -var="candidate_id=$CANDIDATE_ID" -var="candidate_email=CANDIDATE_EMAIL" -no-color
         continue-on-error: false
 
       - name: Terraform Apply
         if: github.event_name == 'push'
-        run: terraform apply -auto-approve --recursive
+        run: terraform apply -auto-approve --recursive && aws s3api get-bucket-location --bucket analytics-1045 || aws s3 mb s3://analytics-1045 --region eu-west-1
