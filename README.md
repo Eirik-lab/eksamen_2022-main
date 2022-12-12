@@ -31,14 +31,14 @@ Oppgave 1
            Dette kan lett løses ved at man setter på en "branch rule" som sier at man ikke kan deploye til main branchen før alle actions kjører grønnt og man har fått godkjenning av
            minst én annen utvikler. \
            Det vil si at om noen av actionsene ender opp med å kjøre rødt fikser man først det før man spør en annen utvikler om å ta seg tid til å se gjennom "merge-requesten". 
-       - Om man ikke tester koden man har skrevet vil feil mest sannsynlig oppstå, en måte å løse dette på er å ikke la noen pulle til main uten at hvertfall en annen person ser gjennom koden, 
-         den personen kan ta gå inn og teste alle enhetstestene og integrasjonstestene og se om de kjører,
-         samt. se om tilstrekkelig antall tester er skrevet eller om det er funksjonalitet som er lagt inn i koden som blir pushet,
-         men ikke dekket av test coverage. 
-       - Man må også huske på og gi kontinuerlige tilbakemeldinger, også på prestasjon samt. funksjonalitet.
-         Dvs. at om man ser at problemer ofte blir løst på en måte som skaper nye problemer må dette tas opp i plenum
-         (eller med personen det gjelder) og så må man idemyldre etter måter å løse dette på i framtiden,
-         slik at det samme problemet ikke gjentar seg om og om igjen.
+     - Om man ikke tester koden man har skrevet vil feil mest sannsynlig oppstå, en måte å løse dette på er å ikke la noen pulle til main uten at hvertfall en annen person ser gjennom koden, 
+       den personen kan ta gå inn og teste alle enhetstestene og integrasjonstestene og se om de kjører,
+       samt. se om tilstrekkelig antall tester er skrevet eller om det er funksjonalitet som er lagt inn i koden som blir pushet,
+       men ikke dekket av test coverage. 
+     - Man må også huske på og gi kontinuerlige tilbakemeldinger, også på prestasjon samt. funksjonalitet.
+       Dvs. at om man ser at problemer ofte blir løst på en måte som skaper nye problemer må dette tas opp i plenum
+       (eller med personen det gjelder) og så må man idemyldre etter måter å løse dette på i framtiden,
+       slik at det samme problemet ikke gjentar seg om og om igjen.
    - The Principle of Continual learning and experimentation
      - Når de deployer, feiler det fortsatt ofte. Da ruller de tilbake til forrige versjon, og ny funksjonalitet blir derfor ofte forsinket i månedsvis.
        - Ifølge DevOps prinsippene burde utviklingsprosessen og vedlikeholdsprosessen se slik ut; Planlegg -> Bygg -> Test -> Deploy -> Operer -> Observer -> Gi kontinuerlig tilbakemeldinger -> Finn feil -> gjenta. \
@@ -88,6 +88,10 @@ Oppgave 3
 - Naviger til .github/workflow/docker.yml
 - Gå til actionen kalt Build and push Docker image to ecr
 - Bytt ut alle instansene med 244530008913.dkr.ecr.eu-west-1.amazonaws.com/1045 til 244530008913.dkr.ecr.eu-west-1.amazonaws.com/<repo-et til sensor>
+- Naviger til IAM i AWS og naviger til din egen user, velg "Security credentials" og deretter "Create access key"
+- Navigere til settings/secrets/actions i github repoet (etter du har forket det), trykke "New repository secret" og lag to secrets som heter "AWS_ACCESS_KEY_ID
+  " og "AWS_SECRET_ACCESS_KEY". Du putter da "Access key id"-ed under AWS_ACCESS_KEY_ID og "secret key"-en under AWS_SECRET_ACCESS_KEY.
+
 
 Oppgave 5
 - 
